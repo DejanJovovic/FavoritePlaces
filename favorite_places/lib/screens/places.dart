@@ -8,7 +8,26 @@ class PlacesScreen extends ConsumerStatefulWidget {
   const PlacesScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    return _PlacesScreenState();
+  }
+
+}
+
+class _PlacesScreenState extends ConsumerState<PlacesScreen>{
+
+  late Future<void> _placesFuture; // late will be set before its needed
+
+
+  @override
+  void initState() {
+    super.initState();
+    // this will load places from database and update the state of the provider
+    _placesFuture = ref.read(userPlacesProvider.notifier).loadPlaces();
+  }
+
+  @override
+  Widget build(BuildContext context) {
 
     final userPlaces = ref.watch(userPlacesProvider);
 

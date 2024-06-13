@@ -52,6 +52,30 @@ class UserPlacesNotifier extends StateNotifier<List<Place>> {
     state = places;
   }
 
+  void addPlace(String title, File image, PlaceLocation placeLocation) async {
+    //storing data in sqldatabase
+    final appDir = await syspaths.getApplicationDocumentsDirectory();
+    final fileName = path.basename(image.path); // gets the fileName of the path
+    final copiedImage = await image.copy('${appDir.path}/$fileName');
+
+    final newPlace =
+        Place(title: title, image: copiedImage, location: placeLocation);
+
+    final db = await _getDatabase();
+
+    //storing the data in the database
+    db.insert(
+      'user_places',
+      {
+        'id': newPlace.id,
+        'title': newPlace.title,
+        'image': newPlace.image.path,
+        'lat': newPlace.location.latitude,
+        'lng': newPlace.location.longitude,
+        'address': newPlace.location.address,
+      },
+    );
+
     state = [newPlace, ...state];
   }
 }
