@@ -1,5 +1,5 @@
 import 'package:favorite_places/models/place.dart';
-import 'package:favorite_places/widgets/map.dart';
+import 'package:favorite_places/screens/map.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geocoding/geocoding.dart' as geo;
