@@ -4,7 +4,7 @@ import 'package:favorite_places/widgets/places_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PlacesScreen extends ConsumerWidget {
+class PlacesScreen extends ConsumerStatefulWidget {
   const PlacesScreen({super.key});
 
   @override
@@ -30,8 +30,13 @@ class PlacesScreen extends ConsumerWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: PlacesList(
-          places: userPlaces,
+        child: FutureBuilder(
+          future: _placesFuture,
+          // if its waiting for the database to get the data and show on the screen display the progress indicator, else show the placesList
+          builder: (context, snapshot) => snapshot.connectionState == 
+          ConnectionState.waiting ? const Center(
+            child: CircularProgressIndicator()) : PlacesList(
+              places: userPlaces,),
         ),
       ),
     );
